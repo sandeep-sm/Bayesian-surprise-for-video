@@ -1,0 +1,43 @@
+************************************************
+Bayesian Surprise Toolkit for Matlab
+T. Nathan Mundhenk, Laurent Itti
+iLab at the University of Southern California
+Web Page:    http://ilab.usc.edu/wiki/index.php/Surprise_Matlab_Toolkit
+Source Page: http://sourceforge.net/projects/surprise-mltk
+Contact:     mundhenk@usc.edu, itti@usc.edu
+License:     See files for licensing. 
+************************************************
+
+This is a basic readme to help you get started. For more information
+see the web page listed above. 
+
+This toolkit has been tested on Matlab versions 6.5 and 7.3 on Linux 
+and Windows. It might run on ealier versions. However, it has not 
+been tested on them. I suspect it will run fine on versions as early 
+as 5.x. 
+
+It is our desire that you not need any special matlab toolboxes to run 
+this kit. If you discover that this is not the case, please email us. Also
+feel free to send any bug reports to our sourceforge web page. 
+
+There are two example files to get you started. There is example.m 
+which shows a simple way to run the surprise model and 
+example_graph.m which will give you a graph of surprise space. There
+is also an experiment demo called experiment1.m . These should give
+you enough to start with. 
+
+For help on any function, the basic matlab help should work. Be sure
+to include the toolkit and sub directories in your path. If this is
+done, you can type for instance:
+
+>> help runsm
+   
+This should bring up a standard matlab help.
+
+This toolkit also contains several experiments. These can be 
+activated using the options parameters. see newsm.m for a listing of
+default and starting values.
+
+~~~~
+T. Nathan Mundhenk
+http://www.mundhenk.com

@@ -1,0 +1,100 @@
+8
+
+dir
+13
+https://surprise-mltk.svn.sourceforge.net/svnroot/surprise-mltk/surprise_toolkit
+https://surprise-mltk.svn.sourceforge.net/svnroot/surprise-mltk
+
+
+
+2007-03-25T05:54:31.367487Z
+13
+mundhenk
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+65ddf852-ec2b-0410-b421-feff409ffc7d
+
+math_functions
+dir
+
+surprise_functions
+dir
+
+example.m
+file
+
+
+
+
+2007-03-25T05:54:49.110147Z
+a15fc5172bf5c8e194c5d9b2aade798f
+2007-03-25T05:10:49.900436Z
+10
+mundhenk
+
+test_functions
+dir
+
+example_graph.m
+file
+
+
+
+
+2007-03-25T05:54:49.110147Z
+e3fa28b6cbc09a1a724863420965cdfb
+2007-03-23T01:00:54.083241Z
+5
+mundhenk
+
+example2.m
+file
+
+
+
+
+2007-03-25T05:54:49.110147Z
+5c4d7c69cd635f523367b45a98a5b985
+2007-03-25T05:14:15.759794Z
+11
+mundhenk
+
+graph_functions
+dir
+
+README.txt
+file
+
+
+
+
+2007-03-25T05:54:49.120161Z
+628cf918eb24c9af1e3c3f6fc1794dfb
+2007-03-25T05:54:31.367487Z
+13
+mundhenk
+
+experiment1.m
+file
+
+
+
+
+2007-03-25T05:54:49.120161Z
+aca57c62956e9a2962a32b2a1590ce64
+2007-03-23T03:52:06.908410Z
+7
+mundhenk
+

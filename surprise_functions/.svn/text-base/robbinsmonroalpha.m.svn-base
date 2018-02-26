@@ -1,0 +1,70 @@
+%ROBBINSMONROALPHA compute new alpha value for the surprise model
+%   A2 = ROBBINSMONROALPHA(X,A1,B1,DECAY)
+%   A2 = ROBBINSMONROALPHA(X,A1,B1,DECAY,N)
+%
+%   Compute a new alpha value for surprise using the Robbins-Monro style of
+%   finding the maximum likelyhood value for alpha. This method works by
+%   starting with the derivative of the gamma pdf with respect to alpha and
+%   uses that the make measured updates to alpha in a method designed to
+%   reduce the difference between the estimate of alpha and the true value
+%   of alpha. 
+%
+%   A2 is the return new alpha value as estimated by the formula.
+%
+%   X is a new sample input to the formula. Note that this method is
+%   recursive and works by taking in new samples one at a time. 
+%
+%   A1 is the current estimated value for alpha.
+%
+%   B1 is the current estimated value for beta. It should be noted that
+%   this value can interact with the computation of a new beta value. As
+%   such, if beta is estimated based on alpha, this should be an
+%   independant estimate. A good estimate is the asymptotic value of beta
+%   given we assume the null hypothesis is true. 
+%
+%   DECAY this is the decay term for the surprise model. 
+%
+%   N This is an estimate of N. It can be the same as B1 in many cases. As
+%   such if it is uspecified, it is set to the same as B1. 
+%
+%   See also: newalphabeta, runsm, klgamma, graphkl, gamma, psi, digamma, eulermasch 
+%
+%   T. Nathan Mundhenk
+%   mundhenk@usc.edu
+
+%
+% //////////////////////////////////////////////////////////////////// %
+% The Baysian Surprise Matlab Toolkit - Copyright (C) 2004-2007        %
+% by the University of Southern California (USC) and the iLab at USC.  %
+% See http://iLab.usc.edu for information about this project.          %
+% //////////////////////////////////////////////////////////////////// %
+% This file is part of the Baysian Surprise Matlab Toolkit             %
+%                                                                      %
+% The Baysian Surprise Matlab Toolkit is free software; you can        %
+% redistribute it and/or modify it under the terms of the GNU General  %
+% Public License as published by the Free Software Foundation; either  %
+% version 2 of the License, or (at your option) any later version.     %
+%                                                                      %
+% The Baysian Surprise Matlab Toolkit is distributed in the hope       %
+% that it will be useful, but WITHOUT ANY WARRANTY; without even the   %
+% implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR      %
+% PURPOSE.  See the GNU General Public License for more details.       %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with the iBaysian Surprise Matlab Toolkit; if not, write       %
+% to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,   %
+% Boston, MA 02111-1307 USA.                                           %
+% //////////////////////////////////////////////////////////////////// %
+%
+% Primary maintainer for this file: T. Nathan Mundhenk <mundhenk@usc.edu>
+%
+
+function a2 = robbinsmonroalpha(x,a1,b1,decay,N)    
+
+% This line does something for some reason. I do not know why. Let me know
+% if you have any idea why it affects my algo. to remove it. 
+if nargin < 5 N = b1; end
+
+a2 = a1*decay + (log(b1) - digamma(a1*decay,1000) + log(x)) ./ N;
+    
+    

@@ -1,0 +1,67 @@
+%COVALPHA find J as a solution to E(alpha) = J*alpha 
+%   J = COVALPHA(ALPHA,E_ALPHA,MODE) Will return the simple solution to the
+%   linear problem A = MX. There are two modes of operation. The first mode 
+%   computes the basic inverse of X (alpha). In this case the matrix alpha 
+%   MUST be a sqaure NxN matrix. Additionally, we can compute the 
+%   overdetermined solution where samples > dimensions. In this case we use 
+%   QR decomposition. However, the psuedo-inverse would also work.  
+%
+%   ALPHA - This is the value of the alpha hyperparameters. It must be NxN
+%   and independant in order to use mode 0. If it is overdetermined with a
+%   large set of samples, use mode 1 and compute the estimated inverse by
+%   method of least sqaures. 
+%
+%   E_ALPHA - This is a matrix of estimates for ALPHA. It need not be
+%   square. However, it will have more power if it is the same size as
+%   ALPHA. Notice that J will be the same size as E_ALPHA. 
+%
+%   MODE - Can be set to either 0 or 1. If it is 0, then we assume that
+%   ALPHA is strictly invertable. Otherwise, if we use mode 1, then we
+%   will find the least sqaures solution to the inverse of ALPHA. 
+%
+%   See also: digamma, gamma, psi, eulermasch, klgamma, betavalues
+%
+%   T. Nathan Mundhenk
+%   mundhenk@usc.edu
+%
+
+% //////////////////////////////////////////////////////////////////// %
+% The Baysian Surprise Matlab Toolkit - Copyright (C) 2004-2007        %
+% by the University of Southern California (USC) and the iLab at USC.  %
+% See http://iLab.usc.edu for information about this project.          %
+% //////////////////////////////////////////////////////////////////// %
+% This file is part of the Baysian Surprise Matlab Toolkit             %
+%                                                                      %
+% The Baysian Surprise Matlab Toolkit is free software; you can        %
+% redistribute it and/or modify it under the terms of the GNU General  %
+% Public License as published by the Free Software Foundation; either  %
+% version 2 of the License, or (at your option) any later version.     %
+%                                                                      %
+% The Baysian Surprise Matlab Toolkit is distributed in the hope       %
+% that it will be useful, but WITHOUT ANY WARRANTY; without even the   %
+% implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR      %
+% PURPOSE.  See the GNU General Public License for more details.       %
+%                                                                      %
+% You should have received a copy of the GNU General Public License    %
+% along with the iBaysian Surprise Matlab Toolkit; if not, write       %
+% to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,   %
+% Boston, MA 02111-1307 USA.                                           %
+% //////////////////////////////////////////////////////////////////// %
+%
+% Primary maintainer for this file: T. Nathan Mundhenk <mundhenk@usc.edu>
+
+
+function J = covalpha(alpha,e_alpha,mode)
+
+if mode == 0
+    J = e_alpha * inv(alpha);
+elseif mode == 1
+    [Q,R] = qr(alpha,0);    
+    J = R\(Q' * e_alpha); % Least Sqaures Approximation. 
+    %NOTE: We can also use J = inv(R)*Q' * e_alpha which is slower but more
+    %accurate
+else
+    error('Unknown mode given for computing J passed as an option. Only 0 and 1 supported');
+end
+
+
