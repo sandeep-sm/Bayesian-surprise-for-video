@@ -14,8 +14,8 @@ if nargin < 1
 end
 
 % check bounds on decay rate
-if decay <= 0 || decay >= 1
-    error('Error in DECAY value. It must be set 0 < DECAY < 1');
+if decay <= 0 || decay > 1
+    error('Error in DECAY value. It must be set 0 < DECAY <= 1');
 end
 
 % Set up structures and containers for surprise parameters and values. 
@@ -29,8 +29,6 @@ smod.options.jointmodel = 'none'; % Other options include 'linear' and 'overdet'
 % Use standard univariate model
 if dim == 1 
     A = trimf(x,[1 1 1]);
-    [d1, ix] = min(abs(x-inita));
-    [d2, ix] = min(abs(x-initb));
     smod.alpha0    = A;
     smod.alpha1    = A;
     smod.alpha2    = trimf(x,[inita inita inita]);
@@ -38,11 +36,14 @@ if dim == 1
     smod.beta2     = trimf(x,[initb initb initb]);
     smod.xbar1     = A;
     smod.xbar2     = A;
-    smod.surprise  = 0;
+    smod.surprise  = A;
     smod.epoch     = 0;
     smod.data0     = 1;
     smod.dim       = 1;
     smod.temp_prod = A;
+    smod.temp_sum = A;
+    smod.expectedAlpha2 = A;
+    smod.fuz_data = A;
     smod.max       = struct('Description','Maximum and upper bound limits on model');
     % Obtain asymptotic maximum values for beta and beta'
     % [smod.max.beta1,smod.max.beta2] = betavalues(decay,updatefac);

@@ -1,5 +1,3 @@
-
-
 function smod = newalphabeta(data,smod,x)
 
 %%%%%%%%%%%%%
@@ -17,8 +15,9 @@ elseif strcmp(smod.options.robbins_monro_2,'yes')
 elseif strcmp(smod.options.robbins_monro_3,'yes') 
     smod.alpha2 = robbinsmonroalpha(data,smod.alpha1,smod.beta1,smod.decay,smod.max.beta1); 
 else
-    smod.temp_prod = fuzarith(x,smod.alpha1,smod.decay,'prod')';
-    smod.alpha2 = fuzarith(x,smod.temp_prod,data,'sum');
+    smod.temp_prod = fuzarith(x,smod.alpha1,smod.decay,'prod');
+    smod.fuz_data = trimf(x,[data data data]);
+    smod.alpha2 = fuzarith(x,smod.temp_prod,smod.fuz_data,'sum');
 end
 
 % Update Beta based on whether this is a univariate model or a multivariate
@@ -63,17 +62,17 @@ if strcmp(smod.options.factordecay,'yes')
         expectedAlpha2 = robbinsmonroalpha(smod.xbar2,smod.alpha1,smod.beta1,smod.decay,smod.max.beta1); 
     else
         smod.temp_prod = fuzarith(x,smod.alpha1,smod.decay,'prod');
-        expectedAlpha2 = fuzarith(x,smod.temp_prod,smod.xbar2,'sum');      
+        smod.expectedAlpha2 = fuzarith(x,smod.temp_prod,smod.xbar2,'sum');      
     end
     %fuzzy maths
-    temp_prod = fuzarith(x,smod.beta1,smod.decay,'prod');
+    smod.temp_prod = fuzarith(x,smod.beta1,smod.decay,'prod');
     fuz_1 = trimf(x,[1 1 1]);
-    temp_sum = fuzarith(x,temp_prod,fuz_1,'sum');
-    temp_prod = fuzarith(x,temp_sum,expectedAlpha2,'prod');
+    smod.temp_sum = fuzarith(x,smod.temp_prod,fuz_1,'sum');
+    smod.temp_prod = fuzarith(x,smod.temp_sum,smod.expectedAlpha2,'prod');
     
     %final result for beta2
     %smod.beta2  = expectedAlpha2*(smod.beta1*smod.decay + 1)./smod.alpha2
-    smod.beta2  = fuzarith(x,temp_prod,smod.alpha2,'div'); 
+    smod.beta2  = fuzarith(x,smod.temp_prod,smod.alpha2,'div'); 
     
     if smod.options.debug > 1
         fprintf('Values [%f,%f,%f,%f]\n',smod.xbar1,smod.xbar2,smod.beta1,smod.beta2);
@@ -88,8 +87,8 @@ elseif strcmp(smod.options.setbetamax,'no')
     if smod.options.debug > 1
         fprintf('Updating beta based on standard model\n');
     end
-    temp_prod = fuzarith(x,smod.beta1,smod.decay,'prod');
-    smod.beta2 = fuzarith(x,temp_prod,smod.updatefac,'sum');
+    smod.temp_prod = fuzarith(x,smod.beta1,smod.decay,'prod');
+    smod.beta2 = fuzarith(x,smod.temp_prod,smod.updatefac,'sum');
 else
     fprintf('Using option `setbetamax` in surprise model\n');
 end

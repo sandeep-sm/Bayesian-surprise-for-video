@@ -1,4 +1,4 @@
-function smod = runsm(data,smod,x)
+function smod = runsm(data,smod,x,iterator)
 
 % We require that smod be reset each run. This keeps values clean
 if isfield(smod,'smodisset')
@@ -25,14 +25,14 @@ if size(data,1) > 1
     if smod.options.debug == 2
         fprintf('Running in batch mode. Input is a column vector\n')
     end
-    smod = runsmbatch(data,smod,x);
+    smod = runsmbatch(data,smod,x,iterator);
 elseif size(data,2) > 1  
     if smod.dim == 1
         if smod.options.debug == 1
             fprintf('Running in batch mode (Univariate). Input is a row vector\n')
         end
         data = data';
-        smod = runsmbatch(data,smod,x);
+        smod = runsmbatch(data,smod,x,iterator);
     else
         if smod.options.debug == 2
             fprintf('Running in single step mode (Multivariate). Input is a row vector\n')
@@ -51,7 +51,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Call this to run surprise on a sample vector
 
-function smod = runsmbatch(data,smod,x)
+function smod = runsmbatch(data,smod,x,iterator)
 
 SX = size(data,1);
 if smod.dim == 1
@@ -62,7 +62,8 @@ end
 
 % Create surprise values output matrix
 smod.surprise = zeros(SX,SY);
-
+smod.surprise = [];
+smod.iterator = iterator;
 % create some debug information if requested
 if smod.options.debug > 0
     smod.debugdata        = struct('Description','Debug values from runsm');
@@ -82,7 +83,10 @@ for n = 1:SX
     Sy = size(data,2);
     for var = 1:Sy
         smod = newalphabeta(data(n,Sy),smod,x);
-        smod.surprise(n,Sy) = abs(klgamma(smod.alpha1,smod.alpha2,smod.beta1,smod.beta2,x));
+        %smod.surprise = [smod.surprise abs(klgamma(smod.alpha1,smod.alpha2,smod.beta1,smod.beta2,x))];
+        smod.surprise = [smod.surprise abs(bhattacharya_distance(smod.alpha1,smod.alpha2,smod.beta1,smod.beta2,x))];
+        smod.iterator = smod.iterator + 1;
+        fprintf('iteration number : %d\n',smod.iterator);
     end
     if ~strcmp(smod.options.jointmodel,'none')
         smod.joint.surprise(n,:) = abs(klgamma(smod.joint.alpha1,smod.joint.alpha2,smod.joint.beta1,smod.joint.beta2,x));
