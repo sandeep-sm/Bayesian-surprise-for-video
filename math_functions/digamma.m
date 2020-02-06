@@ -1,5 +1,3 @@
-
-
 function d = digamma(a,k)
 
 if k < 1 || mod(k,1) ~= 0
@@ -10,7 +8,7 @@ end
 
 emc = eulermasch(k);
 
-if size(a,2) > 1 | size(a,1) > 1
+if size(a,2) > 1 || size(a,1) > 1
     Z   = zeros(size(a,1),size(a,2));
     d   = Z - 1 * emc;
     ONE = ones(size(a,1),size(a,2));
