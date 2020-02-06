@@ -1,7 +1,7 @@
 vid = VideoReader('Neovision2-Training-Heli-013.mpg');
 n=512;
 k = 1;
-nframes=80;
+nframes=40;
 img = zeros(n,n,3,nframes);
 outimg = zeros(n,n,nframes);
 vid.CurrentTime=0;

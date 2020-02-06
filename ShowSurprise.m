@@ -9,8 +9,8 @@ for k = 1:1:nframes
     title('Saliency map');
     
     subplot(1,3,3);
-    imshow(surprise(:,:,k));
+    imshow(surprise1(:,:,k));
     title('Surprise map');
     
-    pause(0.2);
+    pause(0.05);
 end
